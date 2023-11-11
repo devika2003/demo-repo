@@ -1,0 +1,117 @@
+#include <stdio.h>
+#include<stdlib.h>
+struct node{
+    int data;
+    struct node *next ;
+
+};
+struct node* top=NULL;
+void traversal(struct node *ptr){
+    while(ptr!=NULL){
+        printf("element= %d\n",ptr->data);
+        ptr=ptr->next;
+
+    }
+    printf("\n");
+
+
+}
+int isempty(){
+    if(top==NULL){
+        printf("is empty");
+    }
+    else{
+        return 0;
+    }
+}
+int isfull(){
+    struct node* p=(struct node *)malloc(sizeof(struct node));
+    if(p==NULL){
+        printf("is empty");
+    }
+    else{
+        return 0;
+    }
+}
+struct node* push(struct node* top,int x){
+    if(isfull()){
+        printf("is full");
+
+    }
+    else{
+        struct node* n=(struct node *)malloc(sizeof(struct node));
+        n->data=x;
+        n->next=top;
+        top=n;
+        return top;
+
+    }
+}
+int pop(struct node *top){
+    if(isempty()){
+        printf("stack overflow");
+        return -1;
+    }
+    else{
+        struct node* n=top;
+        top=top->next;
+        int x=n->data;
+        free(n);
+        return(x);
+
+    }
+}
+int peek(int pos){
+    struct node* n=top;
+    for(int i=1;i<pos && n!=NULL;i++){
+    n=n->next;}
+    if(n!=NULL){
+        return n->data;
+    }
+    else 
+    return 0;
+}
+
+int main() {
+    int choice, x;
+
+    do {
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Peek\n");
+        printf("4. Display\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the element to push: ");
+                scanf("%d", &x);
+                top = push(top, x);
+                break;
+            case 2:
+                x = pop(top);
+                if (x != -1) {
+                    printf("Popped element: %d\n", x);
+                }
+                break;
+            case 3:
+                printf("Enter the position to peek: ");
+                scanf("%d", &x);
+                printf("Element at position %d: %d\n", x, peek(x));
+                break;
+            case 4:
+                printf("Stack elements:\n");
+                traversal(top);
+                break;
+            case 5:
+                printf("Exiting program\n");
+                break;
+            default:
+                printf("Invalid choice\n");
+        }
+    } while (choice != 5);
+
+    return 0;
+}
