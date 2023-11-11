@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+    struct Node* prev;
+};
+
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation error\n");
+        exit(EXIT_FAILURE);
+    }
+    newNode->data = value;
+    newNode->next = NULL;
+    newNode->prev = NULL;
+    return newNode;
+}
+
+struct Node* insertAtBeginning(struct Node* head, int value) {
+    struct Node* newNode = createNode(value);
+
+    if (head == NULL) {
+        return newNode;
+    }
+
+    newNode->next = head;
+    head->prev = newNode;
+    return newNode;
+}
+
+struct Node* insertAtEnd(struct Node* head, int value) {
+    struct Node* newNode = createNode(value);
+
+    if (head == NULL) {
+        return newNode;
+    }
+
+    struct Node* current = head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+    current->next = newNode;
+    newNode->prev = current;
+    return head;
+}
+
+void displayForward(struct Node* head) {
+    printf("Doubly Linked List (Forward): ");
+    while (head != NULL) {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+    printf("\n");
+}
+
+void displayReverse(struct Node* head) {
+    printf("Doubly Linked List (Reverse): ");
+    while (head != NULL && head->next != NULL) {
+        head = head->next;
+    }
+
+    while (head != NULL) {
+        printf("%d ", head->data);
+        head = head->prev;
+    }
+    printf("\n");
+}
+
+int main() {
+    struct Node* head = NULL;
+    int choice, value;
+
+    do {
+        printf("1. Insert at the beginning\n");
+        printf("2. Insert at the end\n");
+        printf("3. Display forward\n");
+        printf("4. Display reverse\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the value to insert at the beginning: ");
+                scanf("%d", &value);
+                head = insertAtBeginning(head, value);
+                break;
+            case 2:
+                printf("Enter the value to insert at the end: ");
+                scanf("%d", &value);
+                head = insertAtEnd(head, value);
+                break;
+            case 3:
+                displayForward(head);
+                break;
+            case 4:
+                displayReverse(head);
+                break;
+            case 5:
+                printf("Exiting program\n");
+                break;
+            default:
+                printf("Invalid choice\n");
+        }
+    } while (choice != 5);
+
+    while (head != NULL) {
+        struct Node* temp = head;
+        head = head->next;
+        free(temp);
+    }
+
+    return 0;
+}
