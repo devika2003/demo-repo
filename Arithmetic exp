@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+public class ArithmeticExceptionHandling {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter numerator: ");
+        double numerator = scanner.nextDouble();
+
+        System.out.print("Enter denominator: ");
+        double denominator = scanner.nextDouble();
+
+        divideNumbers(numerator, denominator);
+    }
+
+    public static void divideNumbers(double num1, double num2) {
+        try {
+            double result = num1 / num2;
+            System.out.println("Result of division: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Error: Division by zero is not allowed.");
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+    }
+}
