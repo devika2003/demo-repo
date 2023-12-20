@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct Node{
+	int data;
+	struct Node* next;
+};
+typedef struct Node node;
+node* top=NULL;
+node * newnode(){
+	node*p;
+	p=(node *)malloc(sizeof(node));
+	return p;
+
+}
+int isempty(){
+    if(top==NULL){
+        return 1;
+}
+else return 0;}
+void display(){
+	node *curr=top;
+	while(curr!=NULL){
+		printf("%d",curr->data);
+		curr=curr->next;
+		 
+	} printf("\n");
+}
+void insertfirst(int val){
+	node *p;
+	p=newnode();
+	p->data=val;
+	p->next=top;
+	top=p;
+
+}
+int del(){
+    if(isempty()){
+        printf("empty");
+    }
+    
+    node*p=top;
+    int item=p->data;
+    top=p->next;
+    free(p);
+    return item;
+}
+
+void main(){
+	int val,item,c;
+	do{
+	printf("\n 1 insert 2 del \n");
+	printf("enter choice	");
+	scanf("%d",&c);
+	
+	switch(c){
+		case 1: printf("enter val ");
+				scanf("%d",&val);
+				insertfirst(val);
+				display();
+				break;
+
+		case 2: printf("\nthe val delted is %d\n",del());
+                display();
+				break;
+    }}while(c!=3);
+}
