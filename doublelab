@@ -1,0 +1,165 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct Node{
+    int data;
+    struct Node *next;
+    struct Node *prev;
+};typedef struct Node node;
+node* head=NULL;
+node* tail=NULL;
+node* newnode(){
+    node* p;
+    p=(node*)malloc(sizeof(node));
+    return p;
+}
+void display(){
+    node* curr=head;
+    while(curr!=NULL){
+    printf("%d",curr->data);    
+    curr=curr->next;
+    }
+
+}
+void insertfirst(int val){
+    node* p;
+    p=newnode();
+    p->data=val;
+    p->next=head;
+    p->prev=NULL;
+    if(head==NULL)
+        head=tail=p;
+    else{
+        head->prev=p;
+    }
+    head=p;
+
+}
+void insertbefore(int val,int item){
+    node* p;
+    node* curr=head;
+    p=newnode();
+    p->data=val;
+    while(curr !=NULL && curr->data!=item)
+    curr=curr->next;
+    if (curr==NULL){
+        printf("no such node");
+    }
+    p->next=curr;
+    p->prev=curr->prev;
+    if(curr->prev==NULL){
+        insertfirst(val);
+    }
+    else{
+    curr->prev->next=p;
+    curr->prev=p;}
+}
+void insertafter(int val, int item) {
+    node* p;
+    node* curr = head;
+    p = newnode();
+    p->data = val;
+
+    while (curr != NULL && curr->data != item)
+        curr = curr->next;
+
+    if (curr == NULL) {
+        printf("No such node.\n");
+        free(p);  // Release memory allocated for the new node
+        return;
+    }
+
+    p->next = curr->next;
+    p->prev = curr;
+
+    if (curr->next != NULL) {
+        curr->next->prev = p;
+    } else {
+        // Inserting after the tail, update tail
+        tail = p;
+    }
+
+    curr->next = p;
+}
+
+void insertend(int val){
+     node* p;
+    p=newnode();
+    p->data=val;
+    p->next=NULL;
+   p->prev=tail;
+    if(head==NULL)
+        head=tail=p;
+    else{
+        tail->next=p;
+    }
+
+
+}
+void del(int item){
+    node*curr=head;
+     while (curr != NULL && curr->data != item)
+        curr = curr->next;
+    if(curr==NULL){
+        printf("no such node");
+
+    }
+    else{
+        if(curr==head)
+            head=curr->next;
+    
+        else
+            curr->prev->next=curr->next;
+        if(curr==tail)
+            tail=curr->prev;
+        else 
+        curr->next->prev =curr->prev;   
+
+    }
+}
+void main(){
+	int val,item,c;
+	do{
+	printf("\n 1 first 2 last 3 after 4 before\n");
+	printf("enter choice	");
+	scanf("%d",&c);
+	
+	switch(c){
+		case 1: printf("enter val ");
+				scanf("%d",&val);
+				insertfirst(val);
+                display();
+				break;
+
+		case 2: printf("enter val ");
+				scanf("%d",&val);
+				insertend(val);
+                display();
+				break;
+
+		case 3: printf("enter val ");
+				scanf("%d",&val);
+				 printf("enter pos ");
+				scanf("%d",&item);
+				insertafter(val,item);
+                display();
+				break;
+		case 4:  printf("enter val ");
+    scanf("%d", &val);
+    printf("enter pos ");
+    scanf("%d", &item);
+    insertbefore(val, item);
+	display();
+    break;
+		case 5:
+        printf("enter val ");
+    scanf("%d", &val); del(val);
+    display();
+				break;
+		case 6:break;		
+		
+
+	}
+
+}while(c!=6);
+}
+
