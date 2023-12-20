@@ -1,0 +1,151 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct Node{
+	int data;
+	struct Node* next;
+};
+typedef struct Node node;
+node* head=NULL;
+node * newnode(){
+	node*p;
+	p=(node *)malloc(sizeof(node));
+	return p;
+
+}
+void display(){
+	node *curr=head;
+	while(curr!=NULL){
+		printf("%d",curr->data);
+		curr=curr->next;
+		 
+	} printf("\n");
+}
+void insertfirst(int val){
+	node *p;
+	p=newnode();
+	p->data=val;
+	p->next=head;
+	head=p;
+
+}
+void insertend(int val){
+	node *curr=head;
+	node *p;
+	p=newnode();
+	p->next=NULL;
+	p->data=val;
+	node *prev;
+	while(curr!=NULL){
+		prev=curr;
+		curr=curr->next;
+	}
+	prev->next=p;
+	
+
+}
+void insertafter(int val,int item){
+	node *curr=head;
+	node *p;
+	p=newnode();
+	p->data=val;
+	while(curr!=NULL && curr->data!=item){
+		curr=curr->next;
+
+
+
+	}
+	p->next=curr->next;
+	curr->next=p;
+	
+
+
+
+}
+void insertbefore(int val, int item) {
+    node* curr = head;
+    node* p, *prev=NULL;
+    p = newnode();
+    p->data = val;
+
+    while (curr != NULL && curr->data != item) {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    if (prev == NULL) {
+        // Inserting before the head, update head
+        p->next = head;
+        head = p;
+    } else {
+        p->next = curr;
+        prev->next = p;
+    }
+}
+
+void del(int pos) {
+    node* curr = head;
+    node* prev = NULL;
+
+    while (curr != NULL && curr->data != pos) {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    if (curr == NULL) {
+        printf("No such node.\n");
+    } else {
+        if (prev == NULL) {
+            // Deleting the head, update head
+            head = curr->next;
+        } else {
+            prev->next = curr->next;
+        }
+
+        free(curr);
+    }
+}
+
+void main(){
+	int val,item,c;
+	do{
+	printf("\n 1 first 2 last 3 after 4 before\n");
+	printf("enter choice	");
+	scanf("%d",&c);
+	
+	switch(c){
+		case 1: printf("enter val ");
+				scanf("%d",&val);
+				insertfirst(val);
+				display();
+				break;
+
+		case 2: printf("enter val ");
+				scanf("%d",&val);
+				insertend(val);display();
+				break;
+
+		case 3: printf("enter val ");
+				scanf("%d",&val);
+				 printf("enter pos ");
+				scanf("%d",&item);
+				insertafter(val,item);display();
+				break;
+		case 4:  printf("enter val ");
+    scanf("%d", &val);
+    printf("enter pos ");
+    scanf("%d", &item);
+    insertbefore(val, item);
+	display();
+    break;
+		case 5:  printf("enter val ");
+    scanf("%d", &val); del(val);
+    display();
+				break;
+		case 6:break;		
+		
+
+	}
+
+}while(c!=6);
+}
+
